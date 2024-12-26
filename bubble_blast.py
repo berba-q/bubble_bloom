@@ -1,3 +1,4 @@
+from pathlib import Path
 import pygame
 import random
 from pygame import Surface, mixer
@@ -11,14 +12,31 @@ class Message:
         self.text = text
         self.creation_time = pygame.time.get_ticks()
         self.duration = duration
-        try:
-            # Try to use Arial for better emoji support
-            self.font = pygame.font.SysFont('Arial', 36)
-        except:
+        
+        # make a font library for emoji support
+        emoji_fonts = ['Apple Color Emoji', 'Noto Color Emoji','Segoe UI Emoji', 'Arial Unicode MS', 'Arial']
+        self.font = None
+        
+        print("\nTrying to load emoji fonts...")
+        for font_name in emoji_fonts:
+            try:
+                self.font = pygame.font.SysFont(font_name, 36)
+                # Test if font can render an emoji
+                test = self.font.render('😊', True, (255, 255, 255))
+                print(f"Successfully loaded {font_name}!")
+                break
+            except Exception as e:
+                print(f"Failed to load {font_name}: {str(e)}")
+                continue
+        
+        # Fallback to default if no emoji font works
+        if self.font is None:
             self.font = pygame.font.Font(None, 36)
+        
         self.color = (255, 255, 255)  # White text
         self.alpha = 255  # For fade out effect
         self.y_offset = 0  # Each message will get its own y-offset
+        
 
     def is_expired(self):
         current_time = pygame.time.get_ticks()
