@@ -72,7 +72,7 @@ class Message:
         y = 20 + self.y_offset  # Offset each message vertically
         screen.blit(text_surface, (x, y))
 
-# Bubble class to create and manage bubbles
+# class to create blow effect
 class BlowEffect:
     def __init__(self, x, y):
         self.x = x
@@ -122,6 +122,7 @@ class BlowEffect:
             pygame.draw.circle(screen, (200, 200, 255, alpha), 
                              (int(particle['x']), int(particle['y'])), 2)
 
+# class to create bubble particles
 class BubbleParticle:
     def __init__(self, x, y, color):
         self.x = x
@@ -138,6 +139,7 @@ class BubbleParticle:
         self.lifetime -= 2
         self.radius *= 0.95
 
+# class to create bubbles
 class Bubble:
     def __init__(self, x, y, screen_width, screen_height):
         self.x = x
